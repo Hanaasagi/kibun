@@ -40,8 +40,12 @@ def kibun_job():
 
 
 if __name__ == '__main__':
-    import daemon
-    with daemon.DaemonContext():
+    import os
+    from daemon import DaemonContext, pidfile
+    current_path = os.getcwd()
+    pid_path = os.path.join(current_path, 'kibun.pid')
+    with DaemonContext(working_directory=current_path,
+                       pidfile=pidfile.PIDLockFile(pid_path)):
         schedule.every().day.at(exec_time).do(kibun_job)
         while True:
             schedule.run_pending()
