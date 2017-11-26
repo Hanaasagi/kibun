@@ -11,3 +11,9 @@
 # stop
 ➜ kill `cat kibun.pid`
 ```
+
+关于配置文件
+
+1) [Bosonnlp console](http://bosonnlp.com/console) 获取 API 密钥  
+2) [Twitter Application Management](https://apps.twitter.com/) 创建 app 获取 Keys and Access Tokens
+3) 填写时区信息
