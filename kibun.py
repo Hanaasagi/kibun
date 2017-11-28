@@ -15,10 +15,11 @@ time_difference = (datetime.now(timezone(tz)).utcoffset().total_seconds() +
 exec_time = '{:0>2d}:59'.format((24 - int(time_difference / (60 * 60)) - 1) % 24)  # noqa
 
 template = """\
-Today emotional analysis result:
-Positive: {}
-Negative: {}
-from goo.gl/RKywab
+today emotional analysis report🤔:
+Positive: {:.2f}
+Negative: {:.2f}
+Have a nice day.
+goo.gl/RKywab
 """
 
 nlp = BosonNLP(bosonnlp_token)
@@ -36,7 +37,8 @@ def kibun_job():
 
     grouped_probability = zip(*map(lambda x: sentiment(x.text).pop(), tweets))
     result = map(lambda nums: sum(nums) / len(nums), grouped_probability)
-    api.update_status(template.format(*result))
+
+    api.update_status(template.format(*(list(result) or (0, 0))))
 
 
 if __name__ == '__main__':
@@ -49,4 +51,4 @@ if __name__ == '__main__':
         schedule.every().day.at(exec_time).do(kibun_job)
         while True:
             schedule.run_pending()
-            time.sleep(1)
+            time.sleep(10)
